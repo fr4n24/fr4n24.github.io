@@ -1,0 +1,253 @@
+/* GymLink page-specific styles */
+
+.gl-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.gl-hero-inner {
+  width: min(900px, 90%);
+  margin: auto;
+  padding: 3rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+.gl-hero-inner h1 {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.gl-badge {
+  display: inline-block;
+  background: rgba(244, 114, 182, 0.15);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Overview */
+.gl-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2rem;
+  align-items: start;
+}
+
+.gl-overview-text p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.gl-meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+}
+
+.gl-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+  gap: 1rem;
+}
+
+.gl-meta-row:last-child {
+  border-bottom: none;
+}
+
+.gl-meta-label {
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.gl-status {
+  background: rgba(244, 114, 182, 0.15);
+  color: var(--accent);
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Screenshots */
+.gl-img-note {
+  text-align: center;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.gl-img-note code {
+  background: rgba(244, 114, 182, 0.1);
+  color: var(--accent);
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.gl-screenshot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.gl-screenshot-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gl-img-placeholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9/16;
+  max-width: 240px;
+  margin: auto;
+  background: var(--card);
+  border: 2px dashed var(--border);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+
+.gl-img-placeholder:hover {
+  border-color: var(--accent);
+}
+
+.gl-img-placeholder img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.gl-img-placeholder.gl-img-missing img {
+  display: none;
+}
+
+.gl-img-label {
+  position: absolute;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.5rem;
+  pointer-events: none;
+}
+
+.gl-img-placeholder:not(.gl-img-missing) .gl-img-label {
+  display: none;
+}
+
+.gl-img-filename {
+  font-size: 0.75rem;
+  color: rgba(244, 114, 182, 0.6);
+  font-family: monospace;
+}
+
+/* Tech pills */
+.gl-tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.gl-tech-pill {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  padding: 0.55rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  backdrop-filter: blur(12px);
+  transition: 0.2s;
+}
+
+.gl-tech-pill:hover {
+  background: rgba(244, 114, 182, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Capstone Poster */
+.gl-poster-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem;
+  backdrop-filter: blur(16px);
+  max-width: 800px;
+  margin: auto;
+}
+
+.gl-poster-meta {
+  margin-bottom: 2rem;
+}
+
+.gl-poster-meta-row {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.05rem;
+  align-items: center;
+}
+
+.gl-poster-meta-row:last-child {
+  border-bottom: none;
+}
+
+.gl-poster-img-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gl-poster-img {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 16px;
+}
+
+.gl-poster-img img {
+  border-radius: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gl-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gl-screenshot-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}

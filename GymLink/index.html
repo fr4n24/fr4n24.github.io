@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GymLink | Francisco Campa</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@latest/tsparticles.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --card: rgba(244, 114, 182, 0.07);
+      --text: #f0f0f0;
+      --muted: #c9b8c0;
+      --border: rgba(244, 114, 182, 0.18);
+      --accent: #f472b6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    #tsparticles {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+
+    .container {
+      width: min(1100px, 90%);
+      margin: auto;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.2rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-accent { color: var(--accent); }
+
+    /* ── Buttons ── */
+    .btn-primary,
+    .btn-secondary {
+      display: inline-block;
+      padding: 0.85rem 1.35rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.25s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #f472b6, #ec4899);
+      color: #0a0a0a;
+    }
+
+    .btn-secondary {
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover { transform: translateY(-3px); }
+
+    /* ── Section ── */
+    .section-padding { padding: 110px 0; }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .accent-text {
+      background: linear-gradient(90deg, #f472b6, #ec4899, #fb7185);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    /* ── Cards ── */
+    .skill-card,
+    .contact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card { padding: 1.5rem; }
+
+    .skill-card h3 { margin-bottom: 0.6rem; }
+    .skill-card p  { color: var(--muted); }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: 0.7s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ════════════════════════════
+       GymLink page-specific
+    ════════════════════════════ */
+
+    /* Hero */
+    .gl-hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+
+    .gl-hero-inner {
+      width: min(900px, 90%);
+      margin: auto;
+      padding: 3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    }
+
+    .gl-hero-inner h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .gl-badge {
+      display: inline-block;
+      background: rgba(244, 114, 182, 0.15);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Overview */
+    .gl-overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .gl-overview-text p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .gl-meta-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      backdrop-filter: blur(16px);
+    }
+
+    .gl-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+      gap: 1rem;
+    }
+
+    .gl-meta-row:last-child { border-bottom: none; }
+
+    .gl-meta-label {
+      color: var(--muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .gl-status {
+      background: rgba(244, 114, 182, 0.15);
+      color: var(--accent);
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* Screenshots */
+    .gl-img-note {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .gl-img-note code {
+      background: rgba(244, 114, 182, 0.1);
+      color: var(--accent);
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .gl-screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .gl-screenshot-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .gl-img-placeholder {
+      position: relative;
+      width: 100%;
+      max-width: 220px;
+      aspect-ratio: 9/16;
+      margin: auto;
+      background: var(--card);
+      border: 2px dashed var(--border);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+
+    .gl-img-placeholder:hover { border-color: var(--accent); }
+
+    .gl-img-placeholder img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+
+    /* hide image tag when it 404s */
+    .gl-img-placeholder.gl-missing img { display: none; }
+
+    .gl-img-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 0.5rem;
+      pointer-events: none;
+    }
+
+    /* hide label when image loaded */
+    .gl-img-placeholder:not(.gl-missing) .gl-img-label { display: none; }
+
+    .gl-img-filename {
+      font-size: 0.75rem;
+      color: rgba(244, 114, 182, 0.5);
+      font-family: monospace;
+      text-align: center;
+    }
+
+    /* Tech pills */
+    .gl-tech-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .gl-tech-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 0.55rem 1.4rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      backdrop-filter: blur(12px);
+      transition: 0.2s;
+    }
+
+    .gl-tech-pill:hover {
+      background: rgba(244, 114, 182, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Capstone Poster */
+    .gl-poster-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .gl-poster-meta { margin-bottom: 2rem; }
+
+    .gl-poster-meta-row {
+      display: flex;
+      gap: 1.5rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 1.05rem;
+      align-items: center;
+    }
+
+    .gl-poster-meta-row:last-child { border-bottom: none; }
+
+    .gl-poster-img-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .gl-poster-img {
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 16px;
+    }
+
+    .gl-poster-img img { border-radius: 14px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .gl-overview-grid { grid-template-columns: 1fr; }
+      .gl-screenshot-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+      .section-padding { padding: 90px 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="tsparticles"></div>
+
+  <header class="site-header">
+    <nav class="navbar container">
+      <a href="../" class="logo">← Francisco Campa</a>
+      <span class="logo logo-accent">GymLink</span>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="gl-hero section-padding">
+    <div class="gl-hero-inner reveal">
+      <div class="gl-badge">Capstone Project · COMP-499</div>
+      <h1>Gym<span class="accent-text">Link</span></h1>
+      <p class="hero-subtitle">
+        A native iOS fitness tracking application built with Swift and SwiftUI —
+        helping users log workouts, monitor progress, and stay connected with their fitness goals.
+      </p>
+      <div class="hero-buttons">
+        <a href="https://github.com/fr4n24" target="_blank" class="btn-primary">View on GitHub</a>
+        <a href="#screenshots" class="btn-secondary">See Screenshots</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="section-padding">
+    <div class="container">
+      <h2 class="section-title reveal">Overview</h2>
+      <div class="gl-overview-grid">
+        <div class="gl-overview-text reveal">
+          <p>
+            GymLink is a native iOS fitness tracking application developed as the capstone project
+            for COMP-499. The app was designed to solve a common problem gym-goers face: keeping
+            track of their workouts, measuring progress over time, and staying consistent with
+            their fitness routines.
+          </p>
+          <p>
+            The project covers the full software development lifecycle — from requirements gathering
+            and UI/UX design to implementation, testing, and deployment — applying computer science
+            concepts learned throughout the program to a real-world mobile application.
+          </p>
+        </div>
+        <div class="gl-meta-card reveal">
+          <div class="gl-meta-row">
+            <span class="gl-meta-label">Platform</span>
+            <span>iOS (iPhone)</span>
+          </div>
+          <div class="gl-meta-row">
+            <span class="gl-meta-label">Language</span>
+            <span>Swift</span>
+          </div>
+          <div class="gl-meta-row">
+            <span class="gl-meta-label">Framework</span>
+            <span>SwiftUI</span>
+          </div>
+          <div class="gl-meta-row">
+            <span class="gl-meta-label">Storage</span>
+            <span>Core Data</span>
+          </div>
+          <div class="gl-meta-row">
+            <span class="gl-meta-label">Status</span>
+            <span class="gl-status">Completed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section-padding">
+    <div class="container">
+      <h2 class="section-title reveal">Features</h2>
+      <div class="skill-grid">
+        <div class="skill-card reveal">
+          <h3>Workout Logging</h3>
+          <p>Log exercises, sets, reps, and weights for any workout session with a clean, intuitive interface.</p>
+        </div>
+        <div class="skill-card reveal">
+          <h3>Progress Tracking</h3>
+          <p>Visualize strength and endurance gains over time with charts and personal records.</p>
+        </div>
+        <div class="skill-card reveal">
+          <h3>Exercise Library</h3>
+          <p>Browse a built-in library of exercises organized by muscle group and equipment type.</p>
+        </div>
+        <div class="skill-card reveal">
+          <h3>Custom Routines</h3>
+          <p>Create and save custom workout routines to reuse across multiple sessions.</p>
+        </div>
+        <div class="skill-card reveal">
+          <h3>User Profiles</h3>
+          <p>Maintain a personal profile with fitness goals, stats, and workout history.</p>
+        </div>
+        <div class="skill-card reveal">
+          <h3>Persistent Storage</h3>
+          <p>All data persists locally on-device using Core Data so your workout history is always available.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section id="screenshots" class="section-padding">
+    <div class="container">
+      <h2 class="section-title reveal">Screenshots</h2>
+      <p class="gl-img-note reveal">
+        Drop your images into <code>GymLink/images/</code> using the filenames shown below — they'll appear automatically.
+      </p>
+
+      <div class="gl-screenshot-grid">
+        <div class="gl-screenshot-slot reveal">
+          <div class="gl-img-placeholder gl-missing">
+            <img src="images/app-home.png" alt="Home Screen" />
+            <span class="gl-img-label">Home / Dashboard</span>
+          </div>
+          <p class="gl-img-filename">app-home.png</p>
+        </div>
+
+        <div class="gl-screenshot-slot reveal">
+          <div class="gl-img-placeholder gl-missing">
+            <img src="images/app-workout.png" alt="Workout Logger" />
+            <span class="gl-img-label">Workout Logger</span>
+          </div>
+          <p class="gl-img-filename">app-workout.png</p>
+        </div>
+
+        <div class="gl-screenshot-slot reveal">
+          <div class="gl-img-placeholder gl-missing">
+            <img src="images/app-progress.png" alt="Progress Tracking" />
+            <span class="gl-img-label">Progress Tracking</span>
+          </div>
+          <p class="gl-img-filename">app-progress.png</p>
+        </div>
+
+        <div class="gl-screenshot-slot reveal">
+          <div class="gl-img-placeholder gl-missing">
+            <img src="images/app-exercises.png" alt="Exercise Library" />
+            <span class="gl-img-label">Exercise Library</span>
+          </div>
+          <p class="gl-img-filename">app-exercises.png</p>
+        </div>
+
+        <div class="gl-screenshot-slot reveal">
+          <div class="gl-img-placeholder gl-missing">
+            <img src="images/app-routines.png" alt="Custom Routines" />
+            <span class="gl-img-label">Custom Routines</span>
+          </div>
+          <p class="gl-img-filename">app-routines.png</p>
+        </div>
+
+        <div class="gl-screenshot-slot reveal">
+          <div class="gl-img-placeholder gl-missing">
+            <img src="images/app-profile.png" alt="User Profile" />
+            <span class="gl-img-label">User Profile</span>
+          </div>
+          <p class="gl-img-filename">app-profile.png</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="section-padding">
+    <div class="container">
+      <h2 class="section-title reveal">Tech Stack</h2>
+      <div class="gl-tech-grid">
+        <div class="gl-tech-pill reveal">Swift</div>
+        <div class="gl-tech-pill reveal">SwiftUI</div>
+        <div class="gl-tech-pill reveal">Core Data</div>
+        <div class="gl-tech-pill reveal">Xcode</div>
+        <div class="gl-tech-pill reveal">iOS SDK</div>
+        <div class="gl-tech-pill reveal">Git / GitHub</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capstone Poster -->
+  <section id="capstone" class="section-padding">
+    <div class="container">
+      <h2 class="section-title reveal">Capstone Poster</h2>
+      <div class="gl-poster-card reveal">
+        <div class="gl-poster-meta">
+          <div class="gl-poster-meta-row">
+            <span class="gl-meta-label">Student</span>
+            <span>Francisco Campa</span>
+          </div>
+          <div class="gl-poster-meta-row">
+            <span class="gl-meta-label">Professor</span>
+            <span>Dr. Brian Thoms</span>
+          </div>
+          <div class="gl-poster-meta-row">
+            <span class="gl-meta-label">Class</span>
+            <span>COMP-499 Sec 002 — Capstone Project</span>
+          </div>
+        </div>
+
+        <div class="gl-poster-img-wrap">
+          <div class="gl-img-placeholder gl-poster-img gl-missing">
+            <img src="images/poster.png" alt="Capstone Poster" />
+            <span class="gl-img-label">Capstone Poster</span>
+          </div>
+          <p class="gl-img-filename">poster.png</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>© 2026 Francisco Campa &nbsp;·&nbsp; <a href="../" style="color:var(--accent);text-decoration:none;">Back to Portfolio</a></p>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const reveals = document.querySelectorAll(".reveal");
+
+    function revealOnScroll() {
+      reveals.forEach((el) => {
+        if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+          el.classList.add("active");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", revealOnScroll);
+    window.addEventListener("load", revealOnScroll);
+
+    // Auto-show images when they load (remove gl-missing class)
+    document.querySelectorAll(".gl-img-placeholder img").forEach((img) => {
+      img.addEventListener("load", () => {
+        img.closest(".gl-img-placeholder").classList.remove("gl-missing");
+      });
+    });
+
+    // Particles
+    if (window.tsParticles) {
+      tsParticles.load("tsparticles", {
+        background: { color: "transparent" },
+        particles: {
+          number: { value: 60 },
+          color: { value: ["#f472b6", "#ec4899", "#be185d"] },
+          links: { enable: true, distance: 150, color: "#f472b6", opacity: 0.2, width: 1 },
+          move: { enable: true, speed: 1 },
+          size: { value: { min: 1, max: 3 } },
+          opacity: { value: 0.5 }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
