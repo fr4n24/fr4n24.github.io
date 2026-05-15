@@ -274,8 +274,12 @@
 
     .gl-screenshot-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .gl-screenshot-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     .gl-screenshot-slot {
@@ -288,9 +292,7 @@
     .gl-img-placeholder {
       position: relative;
       width: 100%;
-      max-width: 220px;
       aspect-ratio: 9/16;
-      margin: auto;
       background: var(--card);
       border: 2px dashed var(--border);
       border-radius: 20px;
@@ -308,7 +310,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 18px;
     }
 
@@ -386,23 +388,32 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 1rem;
     }
 
-    .gl-poster-img {
+    .gl-poster-full-img {
       width: 100%;
-      max-width: 100%;
-      aspect-ratio: 16/9;
+      height: auto;
       border-radius: 16px;
+      display: block;
     }
 
-    .gl-poster-img img { border-radius: 14px; }
+    .gl-poster-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
     /* Responsive */
     @media (max-width: 768px) {
       .gl-overview-grid { grid-template-columns: 1fr; }
-      .gl-screenshot-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+      .gl-screenshot-grid { grid-template-columns: repeat(2, 1fr); }
       .section-padding { padding: 90px 0; }
+    }
+
+    @media (max-width: 480px) {
+      .gl-screenshot-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -446,8 +457,8 @@
             their fitness routines.
           </p>
           <p>
-            The project covers the full software development lifecycle — from requirements gathering
-            and UI/UX design to implementation, testing, and deployment — applying computer science
+            The project covers the full software development lifecycle. From requirements gathering
+            and UI/UX design to implementation, testing, and deployment. Applying computer science
             concepts learned throughout the program to a real-world mobile application.
           </p>
         </div>
@@ -525,35 +536,35 @@
 
         <div class="gl-screenshot-slot reveal">
           <div class="gl-img-placeholder gl-missing">
-            <img src="images/app-workout.png" alt="Workout Logger" />
-            <span class="gl-img-label">Workout Logger</span>
+            <img src="images/feedImage.png" alt="Feed" />
+            <span class="gl-img-label">Feed</span>
           </div>
         </div>
 
         <div class="gl-screenshot-slot reveal">
           <div class="gl-img-placeholder gl-missing">
-            <img src="images/app-progress.png" alt="Progress Tracking" />
-            <span class="gl-img-label">Progress Tracking</span>
+            <img src="images/activityView.png" alt="Activity Tracking" />
+            <span class="gl-img-label">Activity Tracking</span>
           </div>
         </div>
 
         <div class="gl-screenshot-slot reveal">
           <div class="gl-img-placeholder gl-missing">
-            <img src="images/app-exercises.png" alt="Exercise Library" />
-            <span class="gl-img-label">Exercise Library</span>
+            <img src="images/mapView.png" alt="Gym Finder" />
+            <span class="gl-img-label">Map for Finding Gyms Near You</span>
           </div>
         </div>
 
         <div class="gl-screenshot-slot reveal">
           <div class="gl-img-placeholder gl-missing">
-            <img src="images/app-routines.png" alt="Custom Routines" />
-            <span class="gl-img-label">Custom Routines</span>
+            <img src="images/createPost.png" alt="Post Creatioj" />
+            <span class="gl-img-label">Post Creation</span>
           </div>
         </div>
 
         <div class="gl-screenshot-slot reveal">
           <div class="gl-img-placeholder gl-missing">
-            <img src="images/app-profile.png" alt="User Profile" />
+            <img src="images/profileImage.png" alt="User Profile" />
             <span class="gl-img-label">User Profile</span>
           </div>
         </div>
@@ -597,9 +608,10 @@
         </div>
 
         <div class="gl-poster-img-wrap">
-          <div class="gl-img-placeholder gl-poster-img gl-missing">
-            <img src="images/poster.png" alt="Capstone Poster" />
-            <span class="gl-img-label">Capstone Poster</span>
+          <img src="images/poster.png" alt="Capstone Poster" class="gl-poster-full-img" />
+          <div class="gl-poster-actions">
+            <a href="images/poster.png" download="GymLink_Capstone_Poster.png" class="btn-secondary">Download Image</a>
+            <button onclick="printPoster()" class="btn-primary" style="border:none;cursor:pointer;">Save as PDF</button>
           </div>
         </div>
       </div>
@@ -631,6 +643,19 @@
         img.closest(".gl-img-placeholder").classList.remove("gl-missing");
       });
     });
+
+    // Print poster as PDF
+    function printPoster() {
+      const img = document.querySelector('.gl-poster-full-img');
+      const win = window.open('', '_blank');
+      win.document.write(
+        '<html><head><title>GymLink Capstone Poster</title>' +
+        '<style>*{margin:0;padding:0}body{display:flex;justify-content:center;align-items:flex-start}' +
+        'img{max-width:100%;height:auto}@page{margin:0}</style></head>' +
+        '<body><img src="' + img.src + '" onload="window.print()" /></body></html>'
+      );
+      win.document.close();
+    }
 
     // Particles
     if (window.tsParticles) {
